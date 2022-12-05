@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    username<input id="susername">
+    email<input id="semail">
+    <button onclick="addUser()">add User</button>
+    <div id="display"></div>
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script>
+        const MY_SERVER ="https://jsonplaceholder.typicode.com/users/" //json place holder **********
+        //const MY_SERVER = "http://localhost:3000/products/" // fake json server
+        // const MY_SERVER ="http://localhost:5000/students" //my flask python
+                  
+        const loadData = async() => {
+            // get (READ)
+            const res = await axios.get(MY_SERVER)
+            display.innerHTML= res.data.map(user => `
+            <h1>
+            <button onclick = "updUser(${user.id})">update </button>
+            <button onclick = "delUser(${user.id})">${user.id} </button>
+            username: ${user.username} <br> email: ${user.email}<br></h1> <hr>`).join("")
+            console.log(res.data) //display data in console
+        }
+        loadData()
+
+        // post (Create)
+        const addUser = () => {
+            axios.post(MY_SERVER, { username: susername.value, email: semail.value}).then((res) => console.log(res.data))
+        }
+
+
+        // delete (delete)
+        const delUser = (id) => {
+            console.log(id) //for checking the system can find the id properly
+            axios.delete(MY_SERVER + id).then((res) => console.log(res.data))
+        }
+    //delete (delete)
+    // axios.delete(MY_SERVER).then((res)=>console.log(res.data))
+
+        // put (update)
+        const updUser = async (id) => {
+        await axios.put(MY_SERVER + id, { username: susername.value, email: semail.value }).then((res))
+        }
+    </script>
+    <!-- GUI -->
+    
+</body>
+
+</html>
+
+

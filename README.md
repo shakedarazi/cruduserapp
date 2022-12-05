@@ -1,0 +1,6 @@
+product
+
+
+description
+category
+price 
